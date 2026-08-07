@@ -3,6 +3,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: csi-driver-nfs
+  namespace: flux-system
 spec:
   interval: 1h
   path: ./kubernetes/apps/storage/csi-driver-nfs/app
@@ -15,3 +16,4 @@ spec:
   wait: true
   dependsOn:
     - name: nfs-server
+      namespace: flux-system
