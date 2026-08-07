@@ -6,7 +6,7 @@ metadata:
 provisioner: nfs.csi.k8s.io
 parameters:
   server: nfs-server.storage.svc.cluster.local
-  share: /
+  share: /nfsshare
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
 mountOptions:
