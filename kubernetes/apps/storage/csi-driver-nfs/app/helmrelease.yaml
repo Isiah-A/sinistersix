@@ -5,9 +5,14 @@ metadata:
   name: csi-driver-nfs
   namespace: storage
 spec:
-  chartRef:
-    kind: OCIRepository
-    name: csi-driver-nfs
+  chart:
+    spec:
+      chart: csi-driver-nfs
+      version: "4.11.0"
+      sourceRef:
+        kind: HelmRepository
+        name: csi-driver-nfs
+        namespace: storage
   interval: 1h
   values:
     storageClass:
