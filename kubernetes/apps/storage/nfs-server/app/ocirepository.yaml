@@ -3,6 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
   name: nfs-server
+  namespace: storage
 spec:
   interval: 1h
   layerSelector:
