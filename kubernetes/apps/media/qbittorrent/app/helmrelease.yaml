@@ -1,0 +1,101 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: qbittorrent
+  namespace: media
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: qbittorrent
+  interval: 1h
+  values:
+    controllers:
+      qbittorrent:
+        containers:
+          gluetun:
+            image:
+              repository: docker.io/qmcgaw/gluetun
+              tag: latest
+            env:
+              VPN_SERVICE_PROVIDER: airvpn
+              VPN_TYPE: wireguard
+              SERVER_COUNTRIES: United States
+              FIREWALL: "on"
+              FIREWALL_INPUT_PORTS: "8081,6789"
+              FIREWALL_VPN_INPUT_PORTS: "6881"
+              TZ: "America/New_York"
+            envFrom:
+              - secretRef:
+                  name: gluetun-secret
+            securityContext:
+              capabilities:
+                add: ["NET_ADMIN"]
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+          qbittorrent:
+            image:
+              repository: ghcr.io/hotio/qbittorrent
+              tag: release-5.1.2
+            env:
+              PUID: "568"
+              PGID: "568"
+              UMASK: "002"
+              TZ: "America/New_York"
+              WEBUI_PORTS: "8081/tcp,8081/udp"
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 2Gi
+          nzbget:
+            image:
+              repository: lscr.io/linuxserver/nzbget
+              tag: latest
+            env:
+              PUID: "568"
+              PGID: "568"
+              TZ: "America/New_York"
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+    service:
+      app:
+        controller: qbittorrent
+        ports:
+          qbit-web:
+            port: 8081
+          nzbget-web:
+            port: 6789
+    persistence:
+      qbit-config:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        storageClass: nfs-media
+        advancedMounts:
+          qbittorrent:
+            qbit-config:
+              - path: /config
+      nzbget-config:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        storageClass: nfs-media
+        advancedMounts:
+          nzbget:
+            nzbget-config:
+              - path: /config
+      media:
+        type: persistentVolumeClaim
+        existingClaim: media-library
+        globalMounts:
+          - path: /media
