@@ -83,7 +83,7 @@ spec:
         storageClass: nfs-media
         advancedMounts:
           qbittorrent:
-            qbit-config:
+            qbittorrent:
               - path: /config
       nzbget-config:
         type: persistentVolumeClaim
@@ -91,11 +91,15 @@ spec:
         size: 1Gi
         storageClass: nfs-media
         advancedMounts:
-          nzbget:
-            nzbget-config:
+          qbittorrent:
+            nzbget:
               - path: /config
       media:
         type: persistentVolumeClaim
         existingClaim: media-library
-        globalMounts:
-          - path: /media
+        advancedMounts:
+          qbittorrent:
+            qbittorrent:
+              - path: /media
+            nzbget:
+              - path: /media
