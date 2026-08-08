@@ -35,6 +35,17 @@ spec:
         ports:
           http:
             port: 8096
+    route:
+      app:
+        hostnames:
+          - "jellyfin.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 8096
     persistence:
       config:
         type: persistentVolumeClaim

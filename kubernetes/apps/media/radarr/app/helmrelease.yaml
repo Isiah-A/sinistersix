@@ -35,6 +35,17 @@ spec:
         ports:
           http:
             port: 7878
+    route:
+      app:
+        hostnames:
+          - "radarr.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 7878
     persistence:
       config:
         type: persistentVolumeClaim

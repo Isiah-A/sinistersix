@@ -51,6 +51,17 @@ spec:
         ports:
           http:
             port: 5055
+    route:
+      app:
+        hostnames:
+          - "seerr.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 5055
     persistence:
       config:
         type: persistentVolumeClaim

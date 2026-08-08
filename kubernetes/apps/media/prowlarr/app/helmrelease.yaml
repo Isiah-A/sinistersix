@@ -35,6 +35,17 @@ spec:
         ports:
           http:
             port: 9696
+    route:
+      app:
+        hostnames:
+          - "prowlarr.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 9696
     persistence:
       config:
         type: persistentVolumeClaim

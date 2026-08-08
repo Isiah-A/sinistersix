@@ -34,3 +34,14 @@ spec:
         ports:
           http:
             port: 8191
+    route:
+      app:
+        hostnames:
+          - "flaresolverr.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 8191

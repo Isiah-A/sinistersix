@@ -31,6 +31,17 @@ spec:
         ports:
           http:
             port: 9705
+    route:
+      app:
+        hostnames:
+          - "newtarr.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 9705
     persistence:
       config:
         type: persistentVolumeClaim

@@ -31,6 +31,17 @@ spec:
         ports:
           http:
             port: 6868
+    route:
+      app:
+        hostnames:
+          - "profilarr.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 6868
     persistence:
       config:
         type: persistentVolumeClaim

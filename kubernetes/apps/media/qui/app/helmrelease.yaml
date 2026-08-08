@@ -32,6 +32,17 @@ spec:
         ports:
           http:
             port: 7476
+    route:
+      app:
+        hostnames:
+          - "qui.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 7476
     persistence:
       config:
         type: persistentVolumeClaim
