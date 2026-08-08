@@ -8,6 +8,10 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/media/seerr/app
   prune: true
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-secrets
   sourceRef:
     kind: GitRepository
     name: flux-system
