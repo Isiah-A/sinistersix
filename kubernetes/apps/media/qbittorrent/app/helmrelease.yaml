@@ -20,7 +20,7 @@ spec:
             env:
               VPN_SERVICE_PROVIDER: airvpn
               VPN_TYPE: wireguard
-              DNS_UPSTREAM_TYPE: plain
+              DNS_UPSTREAM_PLAIN_ADDRESSES: "10.128.0.1:53"
               SERVER_COUNTRIES: United States
               FIREWALL: "on"
               FIREWALL_INPUT_PORTS: "8081,6789"
