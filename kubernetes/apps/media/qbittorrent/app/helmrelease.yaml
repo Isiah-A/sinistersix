@@ -20,6 +20,7 @@ spec:
             env:
               VPN_SERVICE_PROVIDER: airvpn
               VPN_TYPE: wireguard
+              DOT: "off"
               SERVER_COUNTRIES: United States
               FIREWALL: "on"
               FIREWALL_INPUT_PORTS: "8081,6789"
