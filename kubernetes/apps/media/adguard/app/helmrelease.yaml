@@ -28,7 +28,7 @@ spec:
         controller: adguard
         ports:
           web:
-            port: 3000
+            port: 80
       dns:
         controller: adguard
         type: LoadBalancer
@@ -51,7 +51,7 @@ spec:
         rules:
           - backendRefs:
               - identifier: app
-                port: 3000
+                port: 80
     persistence:
       work:
         type: persistentVolumeClaim
