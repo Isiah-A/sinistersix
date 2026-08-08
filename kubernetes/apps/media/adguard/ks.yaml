@@ -1,0 +1,20 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: adguard
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./kubernetes/apps/media/adguard/app
+  prune: true
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-secrets
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: media
+  wait: true
