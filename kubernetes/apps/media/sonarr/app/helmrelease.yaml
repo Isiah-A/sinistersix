@@ -1,0 +1,50 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: sonarr
+  namespace: media
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: sonarr
+  interval: 1h
+  values:
+    controllers:
+      sonarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: lscr.io/linuxserver/sonarr
+              tag: latest
+            env:
+              PUID: "568"
+              PGID: "568"
+              TZ: "America/New_York"
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+    service:
+      app:
+        controller: sonarr
+        ports:
+          http:
+            port: 8989
+    persistence:
+      config:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        storageClass: nfs-media
+        globalMounts:
+          - path: /config
+      media:
+        type: persistentVolumeClaim
+        existingClaim: media-library
+        globalMounts:
+          - path: /media
