@@ -1,0 +1,41 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: newtarr
+  namespace: media
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: newtarr
+  interval: 1h
+  values:
+    controllers:
+      newtarr:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/elfhosted/newtarr
+              tag: v1.0.0
+            env:
+              TZ: "America/New_York"
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+    service:
+      app:
+        controller: newtarr
+        ports:
+          http:
+            port: 9705
+    persistence:
+      config:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        storageClass: nfs-media
+        globalMounts:
+          - path: /config

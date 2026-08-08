@@ -1,0 +1,47 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: qui
+  namespace: media
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: qui
+  interval: 1h
+  values:
+    controllers:
+      qui:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/autobrr/qui
+              tag: latest
+            securityContext:
+              runAsUser: 568
+              runAsGroup: 568
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+    service:
+      app:
+        controller: qui
+        ports:
+          http:
+            port: 7476
+    persistence:
+      config:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        storageClass: nfs-media
+        globalMounts:
+          - path: /config
+      media:
+        type: persistentVolumeClaim
+        existingClaim: media-library
+        globalMounts:
+          - path: /media

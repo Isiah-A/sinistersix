@@ -1,0 +1,36 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: flaresolverr
+  namespace: media
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: flaresolverr
+  interval: 1h
+  values:
+    controllers:
+      flaresolverr:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/flaresolverr/flaresolverr
+              tag: latest
+            env:
+              LOG_LEVEL: info
+              LOG_HTML: "false"
+              CAPTCHA_SOLVER: none
+              TZ: "America/New_York"
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+    service:
+      app:
+        controller: flaresolverr
+        ports:
+          http:
+            port: 8191
