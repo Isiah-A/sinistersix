@@ -1,0 +1,55 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: homarr
+  namespace: media
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: homarr
+  interval: 1h
+  values:
+    controllers:
+      homarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/homarr-labs/homarr
+              tag: latest
+            envFrom:
+              - secretRef:
+                  name: homarr-secret
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+    service:
+      app:
+        controller: homarr
+        ports:
+          http:
+            port: 7575
+    route:
+      app:
+        hostnames:
+          - "homarr.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 7575
+    persistence:
+      appdata:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        storageClass: nfs-media
+        globalMounts:
+          - path: /appdata
