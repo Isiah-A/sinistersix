@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: data-nfs-server-provisioner-0
+spec:
+  capacity:
+    storage: 1900Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /var/mnt/media
+  claimRef:
+    namespace: storage
+    name: data-nfs-server-provisioner-0

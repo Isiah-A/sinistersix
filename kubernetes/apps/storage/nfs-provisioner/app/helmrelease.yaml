@@ -1,0 +1,26 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nfs-server-provisioner
+  namespace: storage
+spec:
+  chart:
+    spec:
+      chart: nfs-server-provisioner
+      sourceRef:
+        kind: HelmRepository
+        name: nfs-server-provisioner
+        namespace: storage
+  interval: 1h
+  values:
+    persistence:
+      enabled: true
+      storageClass: "-"
+      size: 1900Gi
+    storageClass:
+      create: true
+      name: nfs-media
+      defaultClass: false
+    nodeSelector:
+      kubernetes.io/hostname: k8s-worker-media
