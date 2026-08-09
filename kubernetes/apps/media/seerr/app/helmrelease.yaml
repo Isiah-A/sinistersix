@@ -48,9 +48,6 @@ spec:
     service:
       app:
         controller: seerr
-        annotations:
-          tailscale.com/expose: "true"
-          tailscale.com/hostname: "seerr"
         ports:
           http:
             port: 5055
