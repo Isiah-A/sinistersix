@@ -6,4 +6,3 @@ resources:
   - ./helmrepository.yaml
   - ./helmrelease.yaml
   - ./secret.sops.yaml
-  - ./proxyclass.yaml
