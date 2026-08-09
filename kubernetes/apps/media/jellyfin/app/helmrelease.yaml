@@ -35,7 +35,6 @@ spec:
         annotations:
           tailscale.com/expose: "true"
           tailscale.com/hostname: "jellyfin"
-          tailscale.com/proxy-class: "userspace"
         ports:
           http:
             port: 8096

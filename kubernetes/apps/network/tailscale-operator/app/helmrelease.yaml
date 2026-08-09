@@ -17,8 +17,6 @@ spec:
   values:
     apiServerProxyConfig:
       mode: "true"
-    proxyConfig:
-      defaultProxyClass: userspace
     oauth:
       clientId: ""
       clientSecret: ""
