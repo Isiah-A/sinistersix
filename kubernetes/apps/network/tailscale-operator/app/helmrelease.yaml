@@ -1,0 +1,23 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tailscale-operator
+  namespace: tailscale
+spec:
+  chart:
+    spec:
+      chart: tailscale-operator
+      sourceRef:
+        kind: HelmRepository
+        name: tailscale
+        namespace: tailscale
+  interval: 1h
+  values:
+    apiServerProxyConfig:
+      mode: "true"
+    oauth:
+      clientId: ""
+      clientSecret: ""
+      existingSecret:
+        name: operator-oauth
