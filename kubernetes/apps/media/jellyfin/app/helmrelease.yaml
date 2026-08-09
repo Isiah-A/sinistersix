@@ -32,6 +32,9 @@ spec:
     service:
       app:
         controller: jellyfin
+        annotations:
+          tailscale.com/expose: "true"
+          tailscale.com/hostname: "jellyfin"
         ports:
           http:
             port: 8096
@@ -40,7 +43,7 @@ spec:
         hostnames:
           - "jellyfin.${SECRET_DOMAIN}"
         parentRefs:
-          - name: envoy-external
+          - name: envoy-internal
             namespace: network
         rules:
           - backendRefs:

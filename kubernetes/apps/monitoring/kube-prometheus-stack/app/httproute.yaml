@@ -6,7 +6,7 @@ metadata:
   namespace: monitoring
 spec:
   hostnames:
-    - "grafana.niyza.org"
+    - "grafana.${SECRET_DOMAIN}"
   parentRefs:
     - name: envoy-internal
       namespace: network
