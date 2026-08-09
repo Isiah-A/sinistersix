@@ -7,4 +7,3 @@ resources:
   - ./helmrelease.yaml
   - ./secret.sops.yaml
   - ./connector.yaml
-  - ./proxyclass.yaml
