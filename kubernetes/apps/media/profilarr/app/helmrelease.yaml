@@ -15,10 +15,25 @@ spec:
         containers:
           app:
             image:
-              repository: santiagosayshey/profilarr
+              repository: ghcr.io/dictionarry-hub/profilarr
               tag: latest
             env:
               TZ: "America/New_York"
+              PUID: "568"
+              PGID: "568"
+              ORIGIN: "https://profilarr.${SECRET_DOMAIN}"
+              PARSER_HOST: "localhost"
+              PARSER_PORT: "5000"
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+          parser:
+            image:
+              repository: ghcr.io/dictionarry-hub/profilarr-parser
+              tag: latest
             resources:
               requests:
                 cpu: 10m
@@ -48,5 +63,8 @@ spec:
         accessMode: ReadWriteOnce
         size: 1Gi
         storageClass: nfs-media
-        globalMounts:
-          - path: /config
+        advancedMounts:
+          profilarr:
+            app:
+              - path: /config
+EOF
