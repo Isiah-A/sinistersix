@@ -67,4 +67,3 @@ spec:
           profilarr:
             app:
               - path: /config
-EOF
