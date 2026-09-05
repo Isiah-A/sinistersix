@@ -26,10 +26,10 @@ spec:
               PARSER_PORT: "5000"
             resources:
               requests:
-                cpu: 10m
-                memory: 128Mi
-              limits:
+                cpu: 50m
                 memory: 512Mi
+              limits:
+                memory: 2Gi
           parser:
             image:
               repository: ghcr.io/dictionarry-hub/profilarr-parser
