@@ -1,9 +1,8 @@
 apiVersion: v1alpha1
 kind: UserVolumeConfig
-name: staging
+name: longhorn
 provisioning:
   diskSelector:
-    match: disk.dev_path == '/dev/sdb'
-  minSize: 50GB
+    match: disk.dev_path == '/dev/nvme0n1'
 filesystem:
   type: xfs
