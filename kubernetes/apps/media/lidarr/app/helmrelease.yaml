@@ -1,0 +1,61 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: lidarr
+  namespace: media
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: lidarr
+  interval: 1h
+  values:
+    controllers:
+      lidarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: lscr.io/linuxserver/lidarr
+              tag: latest
+            env:
+              PUID: "568"
+              PGID: "568"
+              TZ: "America/New_York"
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+    service:
+      app:
+        controller: lidarr
+        ports:
+          http:
+            port: 8686
+    route:
+      app:
+        hostnames:
+          - "lidarr.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 8686
+    persistence:
+      config:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        storageClass: longhorn
+        globalMounts:
+          - path: /config
+      media:
+        type: persistentVolumeClaim
+        existingClaim: media-library
+        globalMounts:
+          - path: /media
