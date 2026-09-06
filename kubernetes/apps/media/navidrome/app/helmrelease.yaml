@@ -11,27 +11,42 @@ spec:
   interval: 1h
   values:
     controllers:
-      navidrome:
-        annotations:
-          reloader.stakater.com/auto: "true"
-        containers:
-          app:
-            image:
-              repository: ghcr.io/navidrome/navidrome
-              tag: latest
-            env:
-              TZ: "America/New_York"
-              ND_MUSICFOLDER: /music
-              ND_DATAFOLDER: /data
-              ND_SCANSCHEDULE: "1h"
-              ND_LOGLEVEL: info
-              ND_SESSIONTIMEOUT: 24h
-            resources:
-              requests:
-                cpu: 10m
-                memory: 256Mi
-              limits:
-                memory: 1Gi
+    navidrome:
+    annotations:
+      reloader.stakater.com/auto: "true"
+    initContainers:
+      plugin-fetch:
+        image: docker.io/curlimages/curl:8.11.1
+        command:
+          - sh
+          - -c
+          - |
+            mkdir -p /data/plugins
+            curl -fsSL -o /data/plugins/apple-music.ndp \
+              https://github.com/navidrome/apple-music-plugin/releases/latest/download/apple-music.ndp
+        volumeMounts:
+          - name: data
+            mountPath: /data
+    containers:
+      app:
+        image:
+          repository: ghcr.io/navidrome/navidrome
+          tag: latest
+        env:
+          TZ: "America/New_York"
+          ND_MUSICFOLDER: /music
+          ND_DATAFOLDER: /data
+          ND_SCANSCHEDULE: "1h"
+          ND_LOGLEVEL: info
+          ND_SESSIONTIMEOUT: 24h
+          ND_AGENTS: "apple-music,deezer,lastfm"
+          ND_PLUGINS_ENABLED: "true"
+        resources:
+          requests:
+            cpu: 10m
+            memory: 256Mi
+          limits:
+            memory: 1Gi
     service:
       app:
         controller: navidrome
