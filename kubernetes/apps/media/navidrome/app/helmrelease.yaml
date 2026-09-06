@@ -26,6 +26,8 @@ spec:
                 mkdir -p /data/plugins
                 curl -fsSLo /data/plugins/apple-music.ndp \
                   https://github.com/navidrome/apple-music-plugin/releases/download/v0.2.0/apple-music.ndp
+            securityContext:
+              runAsUser: 0
         containers:
           app:
             image:
