@@ -35,6 +35,17 @@ spec:
         ports:
           http:
             port: 9696
+    persistence:
+      config:
+        type: persistentVolumeClaim
+        existingClaim: prowlarr-config-lh
+        globalMounts:
+          - path: /config
+      media:
+        type: persistentVolumeClaim
+        existingClaim: media-library
+        globalMounts:
+          - path: /media
     route:
       app:
         hostnames:
@@ -46,16 +57,3 @@ spec:
           - backendRefs:
               - identifier: app
                 port: 9696
-    persistence:
-      config:
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 1Gi
-        storageClass: nfs-media
-        globalMounts:
-          - path: /config
-      media:
-        type: persistentVolumeClaim
-        existingClaim: media-library
-        globalMounts:
-          - path: /media
