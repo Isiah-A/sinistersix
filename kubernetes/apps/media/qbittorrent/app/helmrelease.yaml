@@ -19,9 +19,8 @@ spec:
               tag: latest
             env:
               VPN_SERVICE_PROVIDER: airvpn
-              VPN_TYPE: wireguard
               DNS_UPSTREAM_PLAIN_ADDRESSES: "10.128.0.1:53"
-              HEALTH_TARGET_ADDRESS: "1.1.1.1:443"
+              VPN_TYPE: wireguard
               SERVER_COUNTRIES: United States
               FIREWALL: "on"
               FIREWALL_INPUT_PORTS: "8081,6789"
@@ -77,42 +76,17 @@ spec:
             port: 8081
           nzbget-web:
             port: 6789
-    route:
-      qbit:
-        hostnames:
-          - "qbittorrent.${SECRET_DOMAIN}"
-        parentRefs:
-          - name: envoy-internal
-            namespace: network
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: 8081
-      nzbget:
-        hostnames:
-          - "nzbget.${SECRET_DOMAIN}"
-        parentRefs:
-          - name: envoy-internal
-            namespace: network
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: 6789
     persistence:
       qbit-config:
         type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 1Gi
-        storageClass: nfs-media
+        existingClaim: qbit-config-lh
         advancedMounts:
           qbittorrent:
             qbittorrent:
               - path: /config
       nzbget-config:
         type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 1Gi
-        storageClass: nfs-media
+        existingClaim: nzbget-config-lh
         advancedMounts:
           qbittorrent:
             nzbget:
