@@ -49,9 +49,7 @@ spec:
     persistence:
       config:
         type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 1Gi
-        storageClass: nfs-media
+        existingClaim: radarr-config-lh
         globalMounts:
           - path: /config
       media:
