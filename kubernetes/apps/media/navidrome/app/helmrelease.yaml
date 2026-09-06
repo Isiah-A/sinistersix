@@ -26,26 +26,26 @@ spec:
                 mkdir -p /data/plugins
                 curl -fsSLo /data/plugins/apple-music.ndp \
                   https://github.com/navidrome/apple-music-plugin/releases/download/v0.2.0/apple-music.ndp
-            containers:
-              app:
-                image:
-                  repository: ghcr.io/navidrome/navidrome
-                  tag: latest
-                env:
-                  TZ: "America/New_York"
-                  ND_MUSICFOLDER: /music
-                  ND_DATAFOLDER: /data
-                  ND_SCANSCHEDULE: "1h"
-                  ND_LOGLEVEL: info
-                  ND_SESSIONTIMEOUT: 24h
-                  ND_AGENTS: "apple-music,deezer,lastfm"
-                  ND_PLUGINS_ENABLED: "true"
-                resources:
-                  requests:
-                    cpu: 10m
-                    memory: 256Mi
-                  limits:
-                    memory: 1Gi
+        containers:
+          app:
+            image:
+              repository: ghcr.io/navidrome/navidrome
+              tag: latest
+            env:
+              TZ: "America/New_York"
+              ND_MUSICFOLDER: /music
+              ND_DATAFOLDER: /data
+              ND_SCANSCHEDULE: "1h"
+              ND_LOGLEVEL: info
+              ND_SESSIONTIMEOUT: 24h
+              ND_AGENTS: "apple-music,deezer,lastfm"
+              ND_PLUGINS_ENABLED: "true"
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
     service:
       app:
         controller: navidrome
