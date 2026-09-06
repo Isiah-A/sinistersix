@@ -1,0 +1,65 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: firefly
+  namespace: media
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: firefly
+  interval: 1h
+  values:
+    controllers:
+      firefly:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: docker.io/fireflyiii/core
+              tag: version-6.4.2
+            env:
+              TZ: "America/New_York"
+              APP_ENV: production
+              APP_URL: "https://firefly.${SECRET_DOMAIN}"
+              TRUSTED_PROXIES: "**"
+              DB_CONNECTION: pgsql
+              DB_HOST: firefly-postgres.media.svc.cluster.local
+              DB_PORT: "5432"
+              DB_DATABASE: firefly
+              DB_USERNAME: firefly
+            envFrom:
+              - secretRef:
+                  name: firefly-secret
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+    service:
+      app:
+        controller: firefly
+        ports:
+          http:
+            port: 8080
+    route:
+      app:
+        hostnames:
+          - "firefly.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 8080
+    persistence:
+      upload:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        storageClass: longhorn
+        globalMounts:
+          - path: /var/www/html/storage/upload
