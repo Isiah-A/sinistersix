@@ -3,7 +3,7 @@ kind: UserVolumeConfig
 name: longhorn
 provisioning:
   diskSelector:
-    match: disk.dev_path == '/dev/sdb'
+    match: disk.dev_path == '/dev/nvme0n1'
   minSize: 200GB
 filesystem:
   type: xfs

@@ -1,0 +1,47 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: firefly-postgres
+  namespace: media
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: firefly-postgres
+  interval: 1h
+  values:
+    controllers:
+      firefly-postgres:
+        containers:
+          app:
+            image:
+              repository: docker.io/library/postgres
+              tag: "17.6"
+            env:
+              POSTGRES_DB: firefly
+              POSTGRES_USER: firefly
+              PGDATA: /var/lib/postgresql/data/pgdata
+              TZ: "America/New_York"
+            envFrom:
+              - secretRef:
+                  name: firefly-secret
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+    service:
+      app:
+        controller: firefly-postgres
+        ports:
+          postgres:
+            port: 5432
+    persistence:
+      data:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        storageClass: longhorn
+        globalMounts:
+          - path: /var/lib/postgresql/data
