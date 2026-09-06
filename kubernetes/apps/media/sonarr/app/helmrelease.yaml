@@ -46,7 +46,7 @@ spec:
           - backendRefs:
               - identifier: app
                 port: 8989
-        persistence:
+    persistence:
       config:
         type: persistentVolumeClaim
         existingClaim: sonarr-config-lh
