@@ -13,7 +13,7 @@ nodes:
   - host: "ctrl1"
     ip: "192.168.1.234"
     role: control-plane
-    schematicId: "039535a70c3bd1667c355eca78571267704e55c8a24785033d183b8f26e39d82"
+    schematicId: "8d37fcc01bb9173406853e7fd97ad9eda40732043f88e09dafe55e53fcf4b510"
     data:
       installDisk: "/dev/sda"
       installDiskSerial: ""
@@ -24,7 +24,7 @@ nodes:
   - host: "ctrl2"
     ip: "192.168.1.154"
     role: control-plane
-    schematicId: "039535a70c3bd1667c355eca78571267704e55c8a24785033d183b8f26e39d82"
+    schematicId: "8d37fcc01bb9173406853e7fd97ad9eda40732043f88e09dafe55e53fcf4b510"
     data:
       installDisk: "/dev/sdb"
       installDiskSerial: ""
@@ -35,7 +35,7 @@ nodes:
   - host: "ctrl3"
     ip: "192.168.1.198"
     role: control-plane
-    schematicId: "039535a70c3bd1667c355eca78571267704e55c8a24785033d183b8f26e39d82"
+    schematicId: "8d37fcc01bb9173406853e7fd97ad9eda40732043f88e09dafe55e53fcf4b510"
     data:
       installDisk: "/dev/sda"
       installDiskSerial: ""
@@ -46,7 +46,7 @@ nodes:
   - host: "k8s-worker-staging"
     ip: "192.168.1.199"
     role: worker
-    schematicId: "039535a70c3bd1667c355eca78571267704e55c8a24785033d183b8f26e39d82"
+    schematicId: "8d37fcc01bb9173406853e7fd97ad9eda40732043f88e09dafe55e53fcf4b510"
     data:
       installDisk: "/dev/sda"
       installDiskSerial: ""
@@ -57,11 +57,22 @@ nodes:
   - host: "k8s-worker-media"
     ip: "192.168.1.233"
     role: worker
-    schematicId: "039535a70c3bd1667c355eca78571267704e55c8a24785033d183b8f26e39d82"
+    schematicId: "8d37fcc01bb9173406853e7fd97ad9eda40732043f88e09dafe55e53fcf4b510"
     data:
       installDisk: "/dev/nvme0n1"
       installDiskSerial: ""
       macAddr: "e8:6a:64:c8:17:e2"
+      mtu: 1500
+      encryptDisk: false
+      kernelModules: []
+  - host: "k8s-worker-apps"
+    ip: "192.168.1.225"
+    role: worker
+    schematicId: "8d37fcc01bb9173406853e7fd97ad9eda40732043f88e09dafe55e53fcf4b510"
+    data:
+      installDisk: "/dev/nvme1n1"
+      installDiskSerial: ""
+      macAddr: "d4:a2:cd:b9:89:f4"
       mtu: 1500
       encryptDisk: false
       kernelModules: []
