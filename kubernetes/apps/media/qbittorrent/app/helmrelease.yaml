@@ -77,6 +77,27 @@ spec:
             port: 8081
           nzbget-web:
             port: 6789
+    route:
+      qbit:
+        hostnames:
+          - "qbittorrent.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 8081
+      nzbget:
+        hostnames:
+          - "nzbget.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 6789
     persistence:
       qbit-config:
         type: persistentVolumeClaim
