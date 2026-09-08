@@ -1,0 +1,65 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: couchdb
+  namespace: media
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: couchdb
+  interval: 1h
+  values:
+    controllers:
+      couchdb:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: docker.io/library/couchdb
+              tag: "3.5.0"
+            env:
+              TZ: "America/New_York"
+              ERL_FLAGS: "-name couchdb@127.0.0.1 -setcookie obsidian"
+            envFrom:
+              - secretRef:
+                  name: couchdb-secret
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+    service:
+      app:
+        controller: couchdb
+        ports:
+          http:
+            port: 5984
+    route:
+      app:
+        hostnames:
+          - "obsidian.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 5984
+    persistence:
+      data:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        storageClass: longhorn
+        globalMounts:
+          - path: /opt/couchdb/data
+      config:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        storageClass: longhorn
+        globalMounts:
+          - path: /opt/couchdb/etc/local.d
