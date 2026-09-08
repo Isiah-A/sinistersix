@@ -14,6 +14,9 @@ spec:
       jellyfin:
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          nodeSelector:
+            kubernetes.io/hostname: k8s-worker-media
         containers:
           app:
             image:
@@ -23,6 +26,8 @@ spec:
               PUID: "568"
               PGID: "568"
               TZ: "America/New_York"
+            securityContext:
+              privileged: true
             resources:
               requests:
                 cpu: 100m
@@ -49,9 +54,7 @@ spec:
     persistence:
       config:
         type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 5Gi
-        storageClass: nfs-media
+        existingClaim: jellyfin-config-lh
         globalMounts:
           - path: /config
       media:
@@ -59,3 +62,8 @@ spec:
         existingClaim: media-library
         globalMounts:
           - path: /media
+      dri:
+        type: hostPath
+        hostPath: /dev/dri
+        globalMounts:
+          - path: /dev/dri
