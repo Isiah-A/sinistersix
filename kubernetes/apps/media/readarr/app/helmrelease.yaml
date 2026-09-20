@@ -17,8 +17,8 @@ spec:
         containers:
           app:
             image:
-              repository: lscr.io/linuxserver/readarr
-              tag: develop
+              repository: ghcr.io/hotio/readarr
+              tag: nightly
             env:
               PUID: "568"
               PGID: "568"
