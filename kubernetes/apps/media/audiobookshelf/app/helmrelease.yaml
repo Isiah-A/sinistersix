@@ -1,0 +1,68 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: audiobookshelf
+  namespace: media
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: audiobookshelf
+  interval: 1h
+  values:
+    controllers:
+      audiobookshelf:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/advplyr/audiobookshelf
+              tag: 2.31.0
+            env:
+              TZ: "America/New_York"
+              PORT: "80"
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 2Gi
+    service:
+      app:
+        controller: audiobookshelf
+        ports:
+          http:
+            port: 80
+    route:
+      app:
+        hostnames:
+          - "audiobooks.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 80
+    persistence:
+      config:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        storageClass: longhorn
+        globalMounts:
+          - path: /config
+      metadata:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        storageClass: longhorn
+        globalMounts:
+          - path: /metadata
+      audiobooks:
+        type: persistentVolumeClaim
+        existingClaim: media-library
+        globalMounts:
+          - path: /audiobooks
+            subPath: audiobooks
