@@ -23,6 +23,7 @@ spec:
       replicaSoftAntiAffinity: false
       storageMinimalAvailablePercentage: 15
       backupstorePollInterval: 0
+      taintToleration: "node-role.kubernetes.io/control-plane:NoSchedule"
     persistence:
       defaultClass: true
       defaultClassReplicaCount: 2
