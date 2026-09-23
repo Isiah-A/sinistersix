@@ -66,3 +66,9 @@ spec:
         globalMounts:
           - path: /audiobooks
             subPath: audiobooks
+      ebooks:
+        type: persistentVolumeClaim
+        existingClaim: media-library
+        globalMounts:
+          - path: /books
+            subPath: books
