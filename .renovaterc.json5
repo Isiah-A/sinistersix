@@ -23,6 +23,12 @@
       minimumReleaseAge: "3 days",
     },
     {
+      description: "Postgres major upgrades require pg_upgrade",
+      matchPackageNames: ["docker.io/library/postgres"],
+      matchUpdateTypes: ["major"],
+      enabled: false,
+    },
+    {
       description: "Talos Group",
       groupName: "talos",
       matchPackageNames: ["ghcr.io/siderolabs/installer", "siderolabs/talos", "talosctl"],

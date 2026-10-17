@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: docker.io/library/postgres
-              tag: "18.6"
+              tag: "17.6"
             env:
               POSTGRES_DB: firefly
               POSTGRES_USER: firefly
