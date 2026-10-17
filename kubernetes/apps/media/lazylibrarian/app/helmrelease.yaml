@@ -39,7 +39,7 @@ spec:
     route:
       app:
         hostnames:
-          - "books.${SECRET_DOMAIN}"
+          - "books.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network

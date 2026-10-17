@@ -22,7 +22,7 @@ spec:
             env:
               TZ: "America/New_York"
               APP_ENV: production
-              APP_URL: "https://firefly.${SECRET_DOMAIN}"
+              APP_URL: "https://firefly.niyza.org"
               TRUSTED_PROXIES: "**"
               DB_CONNECTION: pgsql
               DB_HOST: firefly-postgres.media.svc.cluster.local
@@ -47,7 +47,7 @@ spec:
     route:
       app:
         hostnames:
-          - "firefly.${SECRET_DOMAIN}"
+          - "firefly.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network

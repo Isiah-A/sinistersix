@@ -21,7 +21,7 @@ spec:
               TZ: "America/New_York"
               PUID: "568"
               PGID: "568"
-              ORIGIN: "https://profilarr.${SECRET_DOMAIN}"
+              ORIGIN: "https://profilarr.niyza.org"
               PARSER_HOST: "localhost"
               PARSER_PORT: "5000"
             resources:
@@ -49,7 +49,7 @@ spec:
     route:
       app:
         hostnames:
-          - "profilarr.${SECRET_DOMAIN}"
+          - "profilarr.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network

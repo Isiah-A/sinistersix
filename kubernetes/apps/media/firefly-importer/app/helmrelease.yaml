@@ -22,7 +22,7 @@ spec:
             env:
               TZ: "America/New_York"
               FIREFLY_III_URL: "http://firefly.media.svc.cluster.local:8080"
-              VANITY_URL: "https://firefly.${SECRET_DOMAIN}"
+              VANITY_URL: "https://firefly.niyza.org"
               TRUSTED_PROXIES: "**"
             envFrom:
               - secretRef:
@@ -42,7 +42,7 @@ spec:
     route:
       app:
         hostnames:
-          - "import.${SECRET_DOMAIN}"
+          - "import.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network

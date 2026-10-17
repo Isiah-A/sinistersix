@@ -35,7 +35,7 @@ spec:
     route:
       app:
         hostnames:
-          - "qui.${SECRET_DOMAIN}"
+          - "qui.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network

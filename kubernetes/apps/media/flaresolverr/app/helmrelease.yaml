@@ -37,7 +37,7 @@ spec:
     route:
       app:
         hostnames:
-          - "flaresolverr.${SECRET_DOMAIN}"
+          - "flaresolverr.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network

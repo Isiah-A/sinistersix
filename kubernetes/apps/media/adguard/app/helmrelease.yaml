@@ -44,7 +44,7 @@ spec:
     route:
       app:
         hostnames:
-          - "adguard.${SECRET_DOMAIN}"
+          - "adguard.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network

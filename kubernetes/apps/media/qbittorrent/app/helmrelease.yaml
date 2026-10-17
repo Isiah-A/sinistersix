@@ -80,7 +80,7 @@ spec:
     route:
       qbit:
         hostnames:
-          - "qbittorrent.${SECRET_DOMAIN}"
+          - "qbittorrent.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network
@@ -90,7 +90,7 @@ spec:
                 port: 8081
       nzbget:
         hostnames:
-          - "nzbget.${SECRET_DOMAIN}"
+          - "nzbget.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network

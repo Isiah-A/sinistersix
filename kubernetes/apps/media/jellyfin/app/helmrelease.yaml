@@ -43,7 +43,7 @@ spec:
     route:
       app:
         hostnames:
-          - "jellyfin.${SECRET_DOMAIN}"
+          - "jellyfin.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network

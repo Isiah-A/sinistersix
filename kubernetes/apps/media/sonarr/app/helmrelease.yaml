@@ -38,7 +38,7 @@ spec:
     route:
       app:
         hostnames:
-          - "sonarr.${SECRET_DOMAIN}"
+          - "sonarr.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network

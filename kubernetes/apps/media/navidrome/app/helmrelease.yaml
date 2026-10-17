@@ -57,7 +57,7 @@ spec:
     route:
       app:
         hostnames:
-          - "navi.${SECRET_DOMAIN}"
+          - "navi.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network

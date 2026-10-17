@@ -21,7 +21,7 @@ spec:
               tag: latest
             env:
               TZ: "America/New_York"
-              DOMAIN: "https://vault.${SECRET_DOMAIN}"
+              DOMAIN: "https://vault.niyza.org"
               SIGNUPS_ALLOWED: "false"
               WEBSOCKET_ENABLED: "true"
             envFrom:
@@ -42,7 +42,7 @@ spec:
     route:
       app:
         hostnames:
-          - "vault.${SECRET_DOMAIN}"
+          - "vault.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network

@@ -38,7 +38,7 @@ spec:
     route:
       app:
         hostnames:
-          - "lidarr.${SECRET_DOMAIN}"
+          - "lidarr.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network

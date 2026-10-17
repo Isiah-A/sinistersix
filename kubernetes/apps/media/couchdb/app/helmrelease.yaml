@@ -40,7 +40,7 @@ spec:
     route:
       app:
         hostnames:
-          - "obsidian.${SECRET_DOMAIN}"
+          - "obsidian.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network

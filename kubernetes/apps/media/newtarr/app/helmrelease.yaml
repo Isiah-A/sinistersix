@@ -34,7 +34,7 @@ spec:
     route:
       app:
         hostnames:
-          - "newtarr.${SECRET_DOMAIN}"
+          - "newtarr.niyza.org"
         parentRefs:
           - name: envoy-internal
             namespace: network
