@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: docker.io/library/couchdb
-              tag: "3.5.0"
+              tag: "3.5.3"
             env:
               TZ: "America/New_York"
               ERL_FLAGS: "-name couchdb@127.0.0.1 -setcookie obsidian"
