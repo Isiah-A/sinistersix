@@ -1,0 +1,57 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: samba
+  namespace: storage
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: samba
+  interval: 1h
+  values:
+    controllers:
+      samba:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/servercontainers/samba
+              tag: a4.23.3-s5.0.0-r0
+            env:
+              TZ: "America/New_York"
+              SAMBA_CONF_LOG_LEVEL: "1"
+              WSDD2_DISABLE: "1"
+              AVAHI_DISABLE: "1"
+              SAMBA_VOLUME_CONFIG_media: "[media]; path=/shares/media; valid users = isiah; guest ok = no; read only = no; browseable = yes"
+              UID_admin: "568"
+              GROUPID_admin: "568"
+            envFrom:
+              - secretRef:
+                  name: samba-secret
+            securityContext:
+              capabilities:
+                add: ["CHOWN", "SETUID", "SETGID", "DAC_OVERRIDE"]
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+    service:
+      app:
+        controller: samba
+        type: LoadBalancer
+        annotations:
+          io.cilium/lb-ipam-ips: "192.168.1.245"
+        ports:
+          smb:
+            port: 445
+            protocol: TCP
+    persistence:
+      media:
+        type: persistentVolumeClaim
+        existingClaim: media-library
+        globalMounts:
+          - path: /shares/media
