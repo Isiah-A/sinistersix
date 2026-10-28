@@ -24,7 +24,7 @@ spec:
               SAMBA_CONF_LOG_LEVEL: "1"
               WSDD2_DISABLE: "1"
               AVAHI_DISABLE: "1"
-              SAMBA_VOLUME_CONFIG_media: "[media]; path=/shares/media; valid users = isiah; guest ok = no; read only = no; browseable = yes"
+              SAMBA_VOLUME_CONFIG_media: "[media]; path=/shares/media; valid users = admin; guest ok = no; read only = no; browseable = yes"
               UID_admin: "568"
               GROUPID_admin: "568"
             envFrom:
