@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/servercontainers/samba
-              tag: a4.23.3-s5.0.0-r0
+              tag: smbd-wsdd2-a3.24.3-s4.23.8-r0
             env:
               TZ: "America/New_York"
               SAMBA_CONF_LOG_LEVEL: "1"
